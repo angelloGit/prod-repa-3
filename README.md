@@ -4,9 +4,10 @@
 При коммите в ветку мастер содержимое ветки мастер должно обновлять папку /var/www
 
 # Expected result:
+- Ваш ubuntu сервер(*)
+- Git репозиторий на сервере(*)
 - Публичный репозиторий
 - Склоненный с репозитория [https://github.com/MaksymSemenykhin/git-course-task/tree/task%233](https://github.com/MaksymSemenykhin/git-course-task/tree/task%233)
-- Скрипт должен работать на ubuntu сервере.
 - Процедура будет работать с прод репой.
 - Не использовать облачные git сервисы.
 - Не использовать облачные teamcity, jenkins... сервисы.
