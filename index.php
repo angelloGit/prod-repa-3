@@ -1,3 +1,3 @@
 <?php
-print('test with nguinx');
+print('test with nguinx 2');
 
