@@ -1,2 +1,2 @@
 <?php
-die('hi there');
+print('it works');
