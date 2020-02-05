@@ -15,6 +15,10 @@
 - Репозиторий может содержать доп скрипты гит репозитория.
 - Доступ на сервер для ключа task3.pub без пароля.
 ```console
+где
+https://task3.echo.dp.ua/
+git remote add taska3 ssh://team@taska3.echo.dp.ua:60022/home/teamcity/deploy/taska3.git
+
 создал каталог для 3-й таски /var/www/3  
 сам сайт - taska3.echo.dp.ua  и его рут - /var/www/taska3 -  симлинк на /var/www/3
 смысл - подмена каталога на время chekout 
