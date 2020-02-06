@@ -1,3 +1,3 @@
 <?php
-print('test for auto update');
+print('test for auto update 2');
 
