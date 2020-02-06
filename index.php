@@ -1,3 +1,3 @@
 <?php
-print('test with nginx 3');
+print('test for auto update');
 
