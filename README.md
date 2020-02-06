@@ -120,9 +120,10 @@ GIT="git --git-dir=$SITE.git"
 
 ( $GIT fetch $SITE $BRANCH 2>&1 | ( tee /dev/stderr | grep -q -s "$SITE/$BRANCH" ) 2>&1 && \
 echo 'INFO: there are some commits, doing checkout' && \
-$GIT --work-tree=$WWW/$SITE checkout --force $BRANCH ) | grep --color -E "^|$SITE/$BRANCH".
+$GIT --work-tree=$WWW/$SITE merge $SITE/$BRANCH ) | grep --color -E "^|$SITE/$BRANCH".
 
 есть еще несколько деталей которые еще не придумал как решить 
 1-е если ктото с правами рута пошаманил в каталоге сайта ..... 
-как реализовать откат? 
+как реализовать откат?
+
 ```
