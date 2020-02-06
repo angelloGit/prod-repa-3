@@ -68,4 +68,61 @@ To 127.0.0.1:deploy/taska3.git
    cbdc337..bb9063e  master -> master
 
 писал єто все дольше чем делал ))) 
+
+-----------------------------------------------------------
+вариант 2-й
+обновлять сейт если в удаленной репе был коммит
+для начала создаем каталог с локальнойц репой и каьалог для чекаута
+/home/teamcity/init.task3-1.sh
+#!/bin/sh
+
+SITE=taska3-1.echo.dp.ua
+WWW=/var/www
+REPA=git@github.com:angelloGit/prod-repa-3.git
+BRANCH=master
+OWNER=team
+
+[ -e $SITE.git ] && echo "ERROR: $SITE.git exists, exiting" && exit 1
+
+[ `whoami` = $OWNER ] || ( echo "ERROR: do sudo -u$OWNER $0" && exit 1 )
+
+[ -w `pwd` ] || ( echo "ERROR: `pwd` must be writable by $OWNER" && exit 1 )
+
+[ -w $WWW ] || ( echo "ERROR: $WWW must exists and be writable by $OWNER" && exit 1 )
+
+( [ -d $WWW/$SITE ] && echo "ERROR: $WWW/$SITE exists, exiting" && exit 1 ) || mkdir -p $WWW/$SITE
+
+
+git init --bare $SITE.git
+GIT="git --git-dir=$SITE.git"
+$GIT remote add $SITE $REPA
+( $GIT fetch $SITE $BRANCH 2>&1 | ( tee /dev/stderr | grep -q -s "$SITE/$BRANCH" ) 2>&1 && \
+echo 'INFO: there are some commits, doing checkout' && \
+$GIT --work-tree=$WWW/$SITE checkout --force $BRANCH ) | grep --color -E "^|$SITE/$BRANCH".
+
+скрипт проверяет пользователя, что єти каталоги еще не существуют и что у пользователя есть права на их создание 
+( этот функционал даписал вчера ) 
+
+потом создает bare  репe, устанавливает remoute,  и делает fetch.
+вывод отправляет в пайп и ищет упоминание нужного origin/banch.
+если есть, то пришли новые комиты и делаем checkout.
+
+ставим в крон /home/teamcity/fetch.task3-1.sh  на каждые 5 мин.
+#!/bin/sh
+
+SITE=taska3-1.echo.dp.ua
+WWW=/var/www
+REPA=git@github.com:angelloGit/prod-repa-3.git
+BRANCH=master
+OWNER=team
+
+GIT="git --git-dir=$SITE.git"
+
+( $GIT fetch $SITE $BRANCH 2>&1 | ( tee /dev/stderr | grep -q -s "$SITE/$BRANCH" ) 2>&1 && \
+echo 'INFO: there are some commits, doing checkout' && \
+$GIT --work-tree=$WWW/$SITE checkout --force $BRANCH ) | grep --color -E "^|$SITE/$BRANCH".
+
+есть еще нескольько деталей которые еще не придумал как решить 
+1-е если ктото с правами рута пошаманил в каталоге сайта ..... 
+как реализовать откат? 
 ```
