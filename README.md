@@ -78,7 +78,7 @@ To 127.0.0.1:deploy/taska3.git
 писал єто все дольше чем делал ))) 
 наткнулся на рассинхронизацию .... камитил в разные репы .... 
 вобщем правильнее пушить с -f 
-```
+
 -----------------------------------------------------------
 
 вариант 2-й
@@ -88,7 +88,7 @@ To 127.0.0.1:deploy/taska3.git
 для начала создаем скриптом каталог с локальной репой и каталог для чекаута
 
 /home/teamcity/init.task3-1.sh
-```
+````
 #!/bin/sh
 
 SITE=taska3-1.echo.dp.ua
@@ -109,7 +109,7 @@ $GIT remote add $SITE $REPA
 ( $GIT fetch $SITE $BRANCH 2>&1 | ( tee /dev/stderr | grep -q -s "$SITE/$BRANCH" ) 2>&1 && \
 echo 'INFO: there are some commits, doing checkout' && \
 $GIT --work-tree=$WWW/$SITE checkout --force $BRANCH ) | grep --color -E "^|$SITE/$BRANCH".
-```
+````
 
 скрипт проверяет пользователя, что єти каталоги еще не существуют и что у пользователя есть права на их создание 
 ( этот функционал даписал вчера ) 
@@ -119,7 +119,7 @@ $GIT --work-tree=$WWW/$SITE checkout --force $BRANCH ) | grep --color -E "^|$SIT
 если есть, значит пришли новые комиты. делаем checkout.
 
 ставим в крон /home/teamcity/fetch.task3-1.sh  на каждые 5 мин.
-```
+````
 #!/bin/sh
 
 SITE=taska3-1.echo.dp.ua
@@ -133,7 +133,7 @@ GIT="git --git-dir=$SITE.git"
 ( $GIT fetch $SITE $BRANCH 2>&1 | ( tee /dev/stderr | grep -q -s "$SITE/$BRANCH" ) 2>&1 && \
 echo 'INFO: there are some commits, doing checkout' && \
 $GIT --work-tree=$WWW/$SITE merge $SITE/$BRANCH ) | grep --color -E "^|$SITE/$BRANCH".
-```
+````
 
 есть еще несколько деталей которые еще не придумал как решить 
 1-е если ктото с правами рута пошаманил в каталоге сайта ..... 
